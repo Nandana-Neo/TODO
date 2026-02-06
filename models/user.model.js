@@ -37,6 +37,17 @@ async function getUserById(id){
     }
 }
 
+async function updateUser(id, {email, name}){
+    try {
+        const {rows} = await db.query('UPDATE users SET email = $1, name = $2 WHERE id = $3 RETURNING *', [email, name, id]);
+        return rows[0];
+    }
+    catch(err){
+        console.log(err);
+        throw err;
+    }
+}
+
 async function getUsers(){
     try {
         const {rows} = await db.query('SELECT * FROM users');
@@ -52,5 +63,6 @@ module.exports = {
     createUser,
     getUserByEmail,
     getUserById,
+    updateUser,
     getUsers
 }

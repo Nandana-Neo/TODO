@@ -1,0 +1,29 @@
+<%- include('../partials/header') -%>
+    <div class="flex flex-col gap-4 bg-zinc-800 h-screen w-full p-10">
+        <form type="submit" action="/auth/profile/edit" method="post" class="flex flex-col gap-4 bg-rose-100 p-4 rounded-lg text-[#A87677]">
+            <div class="flex flex-row gap-2 items-center">
+                <label for="name" class="font-extrabold">Name:</label> 
+                <input type="text" name="name" id="name" value="<%= user.name %>" class="border border-[#A87677] rounded-md p-2">
+            </div>
+            <div class="flex flex-row gap-2 items-center">
+                <label for="email" class="font-extrabold">Email:</label> 
+                <input type="text" name="email" id="email" value="<%= user.email %>" class="border border-[#A87677] rounded-md p-2">
+            </div>
+            <% if(locals.errors) {%>
+            <div class="text-red-500">
+                <% errors.forEach(error => { %>
+                <p><%= error.msg %></p>
+                <% }) %>
+            </div>
+            <%}%>
+            <div class="flex flex-row w-full mt-5 gap-4">
+                <input type="submit" class="bg-[#A87677] text-rose-100 hover:bg-[#A87677]/80 hover:cursor-pointer rounded-md p-2 w-1/2 text-center" value="Submit">
+                <a href="/profile" class="w-1/2 text-center">
+                    <div class="border border-[#A87677] p-2 rounded-lg">
+                        Back to Profile
+                    </div>
+                </a>
+            </div>
+        </form>
+    </div>
+<%- include('../partials/footer') -%>

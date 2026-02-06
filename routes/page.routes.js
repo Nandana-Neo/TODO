@@ -1,8 +1,7 @@
 const Router = require("express").Router;
 const fs = require('fs');
-
 const router = Router();
-
+const {getUserController, editUserController} = require('../contollers/user.controllers.js');
 
 router.get("/", (req, res)=>{ 
     const user = req.user;
@@ -18,5 +17,7 @@ router.get("/register", (req, res)=>{
 router.get("/login", (req, res)=>{ 
     res.render("auth/login.ejs");
 })
+
+router.get("/profile", getUserController);
 
 module.exports = router;
