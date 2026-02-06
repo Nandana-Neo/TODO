@@ -4,8 +4,8 @@
       <div><a href="/">Home</a></div>
     </div>
     <div class="flex flex-row gap-5">
-    <% if (false) { %>
-      <div><a href="/dashboard">Dashboard</a></div>
+    <% if (locals.user) { %>
+      <div><a href="/dashboard"><%= user.name %></a></div>
       <div>
         <form action="/auth/logout" method="POST" style="display:inline">
           <button class="hover:cursor-pointer" type="submit">Logout</button>

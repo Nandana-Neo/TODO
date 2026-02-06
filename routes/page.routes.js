@@ -5,8 +5,9 @@ const router = Router();
 
 
 router.get("/", (req, res)=>{ 
+    const user = req.user;
     fs.readdir('./files', (err, files) => {
-        res.render("index.ejs", {files:files});
+        res.render("index.ejs", {files:files, user:user});
     })
 })
 

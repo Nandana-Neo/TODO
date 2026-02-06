@@ -1,8 +1,12 @@
 const db = require('../config/db.js')
+const bcrypt = require('bcrypt');
+const env = require('dotenv');
+env.config();
 
 async function createUser({email, password}){
     try {
-        const {rows} = await db.query('INSERT INTO users (email, password) VALUES ($1, $2) RETURNING *', [email, password]);
+        const hashedPassword = await bcrypt.hash(password, Number(process.env.SALT_ROUNDS));
+        const {rows} = await db.query('INSERT INTO users (email, password) VALUES ($1, $2) RETURNING *', [email, hashedPassword]);
         return rows[0];
     }
     catch(err){
