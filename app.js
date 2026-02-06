@@ -4,6 +4,7 @@ const path = require('path')
 const fs = require('fs')
 const routes = require("./routes/index.js");
 
+app.locals.themeColor = "";
 app.use(routes);
 
 

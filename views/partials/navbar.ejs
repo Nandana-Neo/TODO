@@ -1,0 +1,20 @@
+<nav>
+  <div class="flex flex-row h-15 items-center justify-between px-10 text-[#A87677] font-extrabold bg-rose-100">
+    <div class="">
+      <div><a href="/">Home</a></div>
+    </div>
+    <div class="flex flex-row gap-5">
+    <% if (false) { %>
+      <div><a href="/dashboard">Dashboard</a></div>
+      <div>
+        <form action="/auth/logout" method="POST" style="display:inline">
+          <button class="hover:cursor-pointer" type="submit">Logout</button>
+        </form>
+      </div>
+    <% } else { %>
+      <div><a href="/login">Login</a></div>
+      <div><a href="/register">Register</a></div>
+    <% } %>
+    </div>
+  </div>
+</nav>
