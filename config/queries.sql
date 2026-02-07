@@ -11,5 +11,12 @@ CREATE TABLE users (
     mode VARCHAR(2) NOT NULL DEFAULT 'L'
 );
 
-
 -- L for local, G for google oauth
+
+CREATE TABLE tasks (
+    id SERIAL PRIMARY KEY,
+    task VARCHAR(255) NOT NULL,
+    done BIT NOT NULL DEFAULT '0',
+    user_id INTEGER REFERENCES users(id),
+    date DATE NOT NULL DEFAULT CURRENT_DATE
+);

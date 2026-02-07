@@ -1,17 +1,89 @@
 <%- include('partials/header') -%>
-    <div class="flex flex-col gap-4 bg-zinc-800 h-screen w-full px-10">
-        <form class="flex-1 min-h-0 flex flex-col gap-3 p-5 bg-rose-100 text-[#A87677] rounded-lg outline-none mt-5">
-            <input class="rounded-sm p-2 outline-1 outline-[#A87676]"  type="text" placeholder="Note heading"/>
-            <textarea class="flex-1 resize-none min-h-1/2 rounded-sm p-2 outline-1 outline-[#A87676]" placeholder="Write task details here" id=""></textarea>
-            <input class="bg-[#A87677] text-rose-100 p-2" type="submit" value="Create Task" />
-        </form>
-        <div class="flex-1 min-h-0 flex flex-col flex-wrap gap-2 overflow-y-auto pb-2 mb-5 justify-start content-start">
-            <% files.forEach((val) => { %>
-                <div class="w-1/4 h-1/4 flex-none flex flex-col p-2 bg-rose-100 opacity-75 hover:opacity-100 rounded-lg text-[#A87676]">
-                    <h1 class="border-b border-[#A87676]"><%= val %></h1>
-                    <p class="flex-1 overflow-y-auto">Content</p>
-                </div>
-            <% }) %>
-        </div>
+<div class="min-h-screen bg-zinc-800 px-4 py-10 md:px-20">
+
+  <% if (! locals.user) { %>
+    <div class="mx-auto mt-20 max-w-xl rounded-lg bg-rose-100 p-8 text-center shadow-lg">
+      <h1 class="mb-4 text-3xl font-bold text-[#A87676]">Simple Todo</h1>
+      <p class="mb-6 text-[#A87676]">
+        Keep track of tasks. Simple. Fast. No clutter.
+      </p>
+      <div class="flex justify-center gap-4">
+        <a href="/login" class="rounded bg-[#A87676] px-6 py-2 font-semibold text-rose-100 transition hover:bg-[#8f6363]">
+          Login
+        </a>
+        <a href="/register" class="rounded border-2 border-[#A87676] px-6 py-2 font-semibold text-[#A87676] transition hover:bg-[#A87676] hover:text-rose-100">
+          Register
+        </a>
+      </div>
     </div>
+
+  <% } else { %>
+    <div class="mx-auto max-w-2xl">
+      <h1 class="mb-6 text-3xl font-bold text-rose-100">Your Tasks</h1>
+
+      <form action="/task" method="POST" class="mb-8 flex gap-3">
+        <input
+          name="task"
+          required
+          class="flex-1 rounded-md bg-zinc-700 p-3 text-rose-100 placeholder-zinc-400 outline-none ring-2 ring-transparent focus:ring-[#A87676]"
+          type="text"
+          placeholder="What needs to be done?"
+          autocomplete="off"
+        />
+        <button class="rounded-md bg-[#A87676] px-6 py-3 font-bold text-rose-100 hover:bg-[#8f6363]">
+          Add
+        </button>
+      </form>
+
+      <ul class="flex flex-col gap-3">
+        
+        <% tasks.forEach(task => { %>
+  
+        <li class="group flex items-center justify-between rounded-md bg-rose-100 p-4 shadow-sm transition hover:shadow-md 
+          <%= task.done=='1' ? 'opacity-50' : 'opacity-100' %>">
+          
+          <span class="font-medium text-[#A87676] <%= task.done=='1' ? 'line-through' : '' %>">
+            <%= task.task %>
+          </span>
+
+          <div class="flex items-center gap-4">
+            
+            <span class="text-xs font-bold text-rose-400 uppercase tracking-wider">
+              <%= new Date(task.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) %>
+            </span>
+
+            <div class="h-4 w-px bg-rose-300"></div>
+
+            <div class="flex gap-3">
+              <form action="/task/toggle/<%= task.id %>" method="POST">
+                <button class="text-sm font-semibold text-[#A87676] hover:underline">
+                  <%= task.done=='1' ? "Undo" : "Done" %>
+                </button>
+              </form>
+
+              <form action="/task/delete/<%= task.id %>" method="POST">
+                <button class="text-sm font-semibold text-red-500 hover:text-red-700">
+                  Delete
+                </button>
+              </form>
+            </div>
+            
+          </div>
+        </li>
+
+      <% }) %>
+
+      </ul>
+
+      <% if (tasks.length === 0) { %>
+        <div class="mt-10 text-center text-zinc-500">
+          <p class="text-lg">No tasks yet.</p>
+          <p class="text-sm">Add one above to get started 👆</p>
+        </div>
+      <% } %>
+    </div>
+
+  <% } %>
+
+</div>
 <%- include('partials/footer') -%>

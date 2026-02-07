@@ -8,6 +8,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="/stylesheets/style.css">    
         <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+        <script>
+            function toggleDone(id) {
+            document.getElementById("toggle-" + id).submit();
+            }
+        </script>
     </head>
     <body>
         <div class="flex flex-col bg-rose-100 w-full h-screen">

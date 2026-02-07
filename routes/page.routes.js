@@ -1,13 +1,12 @@
 const Router = require("express").Router;
 const fs = require('fs');
 const router = Router();
-const {getUserController, editUserController} = require('../contollers/user.controllers.js');
+const {getUserController} = require('../contollers/user.controllers.js');
 
 router.get("/", (req, res)=>{ 
-    const user = req.user;
-    fs.readdir('./files', (err, files) => {
-        res.render("index.ejs", {files:files, user:user});
-    })
+    if (req.isAuthenticated())
+        return res.redirect("/task");
+    return res.render("index.ejs");
 })
 
 router.get("/register", (req, res)=>{ 
