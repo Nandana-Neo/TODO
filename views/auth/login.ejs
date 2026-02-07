@@ -11,6 +11,8 @@
                 <input class="border border-[#A87677] rounded-md p-2" type="password" name="password" placeholder="password"/>
                 <input type="submit" class="bg-[#A87677] text-rose-100 hover:bg-[#A87677]/80 hover:cursor-pointer rounded-md p-2" value="Login">
             </form>
+            <div class="font-extrabold text-black text-center mt-2"> OR </div>
+            <a href="/auth/google" class="bg-[#A87677] text-rose-100 hover:bg-[#A87677]/80 hover:cursor-pointer rounded-md p-2 text-center">Login via Google</a>
             <% if(locals.errors && locals.errors.length > 0) { %>
                 <div class="text-red-500 mt-2">
                     <% locals.errors.forEach(error => { %>

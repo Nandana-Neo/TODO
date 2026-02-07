@@ -7,5 +7,9 @@ CREATE TABLE users (
     email VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     name VARCHAR(255) DEFAULT 'NewUser',
-    created_on DATE NOT NULL DEFAULT CURRENT_DATE
+    created_on DATE NOT NULL DEFAULT CURRENT_DATE,
+    mode VARCHAR(2) NOT NULL DEFAULT 'L'
 );
+
+
+-- L for local, G for google oauth

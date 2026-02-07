@@ -37,4 +37,15 @@ router.post("/profile/edit",
     editUserController
 );
 
+router.get("/google", passport.authenticate('google',
+    {scope: ['email']}
+))
+
+router.get("/google/done", passport.authenticate('google', {
+    successRedirect: "/",
+    failureRedirect: "/login",
+    session: true,
+    passReqToCallback: true
+}))
+
 module.exports = router;

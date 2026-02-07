@@ -1,7 +1,8 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
+const GoogleStrategy = require('passport-google-oauth2').Strategy;
 const bcrypt = require('bcrypt');
-const {getUserByEmail} = require('./models/user.model.js');
+const {getUserByEmail, createUser} = require('./models/user.model.js');
 
 passport.use('local', new LocalStrategy({
     usernameField: 'email',
@@ -14,6 +15,9 @@ passport.use('local', new LocalStrategy({
             if(!user){
                 console.log("User not found:", email);
                 return done(null, false, { message: 'Incorrect email or password' });
+            }
+            if(user.mode == 'G'){
+                return done(null, false, {message: 'Email allowed only via Google'})
             }
 
             const hashedPassword = user.password;
@@ -29,6 +33,29 @@ passport.use('local', new LocalStrategy({
         catch (err){
             console.log("Error in authentication:", err);
             return done(err);
+        }
+    }
+))
+
+passport.use('google', new GoogleStrategy({
+        clientID: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        callbackURL: '/auth/google/done',
+    },
+    async function verify(req, accessToken, refreshToken, profile, done) {
+        console.log("In google strategy");
+        try{
+            const email = profile.email;
+            let user;
+            user = await getUserByEmail(email);
+            if (!user){
+                user = await createUser({email: email, password:"", mode:'G'});
+            }
+            return done(null, user);
+
+        } catch(error) {
+            console.log(error);
+            return done(error, false);
         }
     }
 ))

@@ -3,10 +3,10 @@ const bcrypt = require('bcrypt');
 const env = require('dotenv');
 env.config();
 
-async function createUser({email, password}){
+async function createUser({email, password, mode='L'}){
     try {
         const hashedPassword = await bcrypt.hash(password, Number(process.env.SALT_ROUNDS));
-        const {rows} = await db.query('INSERT INTO users (email, password) VALUES ($1, $2) RETURNING *', [email, hashedPassword]);
+        const {rows} = await db.query('INSERT INTO users (email, password, mode) VALUES ($1, $2, $3) RETURNING *', [email, hashedPassword, mode]);
         return rows[0];
     }
     catch(err){
@@ -15,9 +15,12 @@ async function createUser({email, password}){
     }
 }
 
+
 async function getUserByEmail(email){
     try {
         const {rows} = await db.query('SELECT * FROM users WHERE email = $1', [email]);
+        if (rows.length == 0)
+            return null;
         return rows[0];
     }
     catch(err){
