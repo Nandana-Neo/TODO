@@ -1,5 +1,5 @@
 <%- include('partials/header') -%>
-<div class="min-h-screen bg-zinc-800 px-4 py-10 md:px-20">
+<div class="flex-1 min-h-0 bg-[url('/images/image.png')] bg-cover bg-center bg-blend-overlay bg-black/70 px-4 py-10 md:px-20 overflow-y-hidden">
 
   <% if (! locals.user) { %>
     <div class="mx-auto mt-20 max-w-xl rounded-lg bg-rose-100 p-8 text-center shadow-lg">
@@ -18,7 +18,7 @@
     </div>
 
   <% } else { %>
-    <div class="mx-auto max-w-2xl">
+    <div class="flex flex-col mx-auto max-w-2xl h-full overflow-y-hidden">
       <h1 class="mb-6 text-3xl font-bold text-rose-100">Your Tasks</h1>
 
       <form action="/task" method="POST" class="mb-8 flex gap-3">
@@ -35,7 +35,7 @@
         </button>
       </form>
 
-      <ul class="flex flex-col gap-3">
+      <ul class="flex-1 flex flex-col gap-3 h-full overflow-y-scroll pr-2">
         
         <% tasks.forEach(task => { %>
   
